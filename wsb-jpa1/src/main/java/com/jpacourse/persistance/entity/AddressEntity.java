@@ -59,4 +59,18 @@ public class AddressEntity {
 		this.postalCode = postalCode;
 	}
 
+/*Relacje wg schematu są następujące:
+1. Do tabeli 'Doctor': 1 - do - 1
+2. Do tabeli 'Patient': 1 - do - 1
+
+
+	@OneToOne(
+			cascade =  CascadeType.ALL, // deafult: empty
+			fetch = FetchType.LAZY, // default: EAGER
+			optional = false // default: true
+	)
+	@JoinColumn(name="doctor_id", referencedColumnName = "id")
+	private DoctorEntity doctor;
+
+ */
 }

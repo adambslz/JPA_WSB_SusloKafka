@@ -1,6 +1,7 @@
 package com.jpacourse.persistance.entity;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import jakarta.persistence.*;
 
@@ -41,4 +42,14 @@ public class VisitEntity {
 		this.time = time;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)// default: EAGER
+	@JoinColumn(name = "doctor_id", referencedColumnName = "id")
+	private DoctorEntity doctor;
+
+	@ManyToOne(fetch = FetchType.LAZY)// default: EAGER
+	@JoinColumn(name = "patient_id", referencedColumnName = "id")
+	private PatientEntity patient;
+
+	@OneToMany(mappedBy = "visit")
+	private Collection<MedicalTreatmentEntity> treatment;
 }

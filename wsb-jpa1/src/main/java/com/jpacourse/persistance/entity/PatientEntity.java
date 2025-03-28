@@ -85,4 +85,11 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	@OneToOne(
+			cascade =  CascadeType.ALL, // default: empty
+			fetch = FetchType.LAZY, // default: EAGER
+			optional = false // default: true
+	)
+	@JoinColumn(name="address_id", referencedColumnName = "id")
+	private AddressEntity address;
 }
