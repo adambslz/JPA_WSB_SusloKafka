@@ -85,6 +85,7 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	//relacje jednostronna (jeden-do-jednego) od strony rodzica
 	@OneToOne(
 			cascade =  CascadeType.ALL, // default: empty
 			fetch = FetchType.LAZY, // default: EAGER

@@ -42,14 +42,17 @@ public class VisitEntity {
 		this.time = time;
 	}
 
+	//relacja jednostronna (wiele-do-jednego) od strony dziecka
 	@ManyToOne(fetch = FetchType.LAZY)// default: EAGER
 	@JoinColumn(name = "doctor_id", referencedColumnName = "id")
 	private DoctorEntity doctor;
 
+	//relacja jednostronna (wiele-do-jednego) od strony dziecka
 	@ManyToOne(fetch = FetchType.LAZY)// default: EAGER
 	@JoinColumn(name = "patient_id", referencedColumnName = "id")
 	private PatientEntity patient;
 
+	//relacja dwustronna (jeden-do-wielu) od strony dziecka
 	@OneToMany(mappedBy = "visit")
 	private Collection<MedicalTreatmentEntity> treatment;
 }

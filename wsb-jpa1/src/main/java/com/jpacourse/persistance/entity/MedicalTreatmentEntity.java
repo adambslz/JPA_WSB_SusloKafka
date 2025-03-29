@@ -42,6 +42,7 @@ public class MedicalTreatmentEntity {
 		this.type = type;
 	}
 
+	//relacja dwustronna (wiele-do-jednego) od strony dziecka
 	@ManyToOne
 	@JoinColumn(name = "visit_id", referencedColumnName = "id")
 	private VisitEntity visit;
