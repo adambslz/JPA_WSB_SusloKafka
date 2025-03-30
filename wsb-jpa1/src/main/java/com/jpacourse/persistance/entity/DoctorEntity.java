@@ -86,7 +86,7 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
-	//relacja jednostronna (jeden-do-jednego) od strony rodzica
+	//Relacja jednostronna (jeden-do-jednego) od strony rodzica
 	@OneToOne(
 			cascade =  CascadeType.ALL, // default: empty
 			fetch = FetchType.LAZY, // default: EAGER
