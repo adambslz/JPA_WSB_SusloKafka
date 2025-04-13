@@ -7,7 +7,7 @@ public final class PatientMapper {
     public static PatientTO mapToTO(final PatientEntity patientEntity) {
         if(patientEntity == null) {
             return null;
-        };
+        }
         final PatientTO patientTO = new PatientTO();
         patientTO.setId(patientEntity.getId());
         patientTO.setFirstName(patientEntity.getFirstName());
