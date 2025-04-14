@@ -2,6 +2,7 @@ package com.jpacourse.persistance.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -42,6 +43,30 @@ public class VisitEntity {
 		this.time = time;
 	}
 
+	public PatientEntity getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
+	}
+
+	public DoctorEntity getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
+	}
+
+	public List<MedicalTreatmentEntity> getMedicalTreatments() {
+		return treatment;
+	}
+
+	public void setMedicalTreatments(List<MedicalTreatmentEntity> medicalTreatments) {
+		this.treatment = medicalTreatments;
+	}
+
 	//Relacja jednostronna (wiele-do-jednego) od strony dziecka
 	@ManyToOne(fetch = FetchType.LAZY)// default: EAGER
 	@JoinColumn(name = "doctor_id", referencedColumnName = "id")
@@ -54,5 +79,5 @@ public class VisitEntity {
 
 	//Relacja dwustronna (jeden-do-wielu) od strony dziecka
 	@OneToMany(mappedBy = "visit")
-	private Collection<MedicalTreatmentEntity> treatment;
+	private List<MedicalTreatmentEntity> treatment;
 }

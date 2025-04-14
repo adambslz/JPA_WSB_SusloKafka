@@ -1,5 +1,6 @@
 package com.jpacourse.dto;
 
+import com.jpacourse.persistance.entity.AddressEntity;
 import com.jpacourse.persistance.enums.Specialization;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class DoctorTO implements Serializable {
     private String email;
     private String doctorNumber;
     private Specialization specialization;
-    private List<AddressTO> addresses;
+    private AddressTO address;
     private List<VisitTO> visits;
 
     public Long getId() {
@@ -73,12 +74,12 @@ public class DoctorTO implements Serializable {
         this.specialization = specialization;
     }
 
-    public List<AddressTO> getAddresses() {
-        return addresses;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-    public void setAddresses(List<AddressTO> addresses) {
-        this.addresses = addresses;
+    public void setAddress(AddressTO address) {
+        this.address = address;
     }
 
     public List<VisitTO> getVisits() {

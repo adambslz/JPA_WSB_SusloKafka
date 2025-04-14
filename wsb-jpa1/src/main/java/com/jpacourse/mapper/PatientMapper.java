@@ -2,6 +2,7 @@ package com.jpacourse.mapper;
 
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.persistance.entity.PatientEntity;
+import java.util.stream.Collectors;
 
 public final class PatientMapper {
     public static PatientTO mapToTO(final PatientEntity patientEntity) {
@@ -13,6 +14,14 @@ public final class PatientMapper {
         patientTO.setFirstName(patientEntity.getFirstName());
         patientTO.setLastName(patientEntity.getLastName());
         patientTO.setEmail(patientEntity.getEmail());
+        patientTO.setTelephoneNumber(patientEntity.getTelephoneNumber());
+        patientTO.setPatientNumber(patientEntity.getPatientNumber());
+        patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
+        if(patientEntity.getVisits()!=null{
+            patientTO.setVisits(patientEntity.getVisits().stream()
+                    .map(VisitMapper::mapToTO)
+                    .collect(Collectors.toList()));
+        }
         return patientTO;
     }
     public static PatientEntity mapToEntity(final PatientTO patientTO) {
@@ -24,6 +33,14 @@ public final class PatientMapper {
         patientEntity.setFirstName(patientTO.getFirstName());
         patientEntity.setLastName(patientTO.getLastName());
         patientEntity.setEmail(patientTO.getEmail());
+        patientEntity.setTelephoneNumber(patientTO.getTelephoneNumber());
+        patientEntity.setPatientNumber(patientTO.getPatientNumber());
+        patientEntity.setDateOfBirth(patientTO.getDateOfBirth());
+        if (patientTO.getVisits() != null) {
+            patientEntity.setVisits(patientTO.getVisits().stream()
+                    .map(VisitMapper::mapToEntity)
+                    .collect(Collectors.toList()));
+        }
         return patientEntity;
     }
 }

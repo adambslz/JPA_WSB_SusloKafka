@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 public class PatientTO implements Serializable {
     private Long id;
@@ -19,6 +20,10 @@ public class PatientTO implements Serializable {
     private String patientNumber;
 
     private LocalDate dateOfBirth;
+
+    private List<VisitTO> visits;
+
+    private List<AddressTO> addresses;
 
     public Long getId() {
         return id;
@@ -74,5 +79,21 @@ public class PatientTO implements Serializable {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public List<VisitTO> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<VisitTO> visits) {
+        this.visits = visits;
+    }
+
+    public List<AddressTO> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressTO> addresses) {
+        this.addresses = addresses;
     }
 }

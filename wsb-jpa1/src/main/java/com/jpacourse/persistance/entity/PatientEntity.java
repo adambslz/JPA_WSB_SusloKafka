@@ -2,7 +2,9 @@ package com.jpacourse.persistance.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "PATIENT")
@@ -85,6 +87,14 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
 	//Relacje jednostronna (jeden-do-jednego) od strony rodzica
 	@OneToOne(
 			cascade =  CascadeType.ALL, // default: empty
@@ -93,4 +103,8 @@ public class PatientEntity {
 	)
 	@JoinColumn(name="address_id", referencedColumnName = "id")
 	private AddressEntity address;
+
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<VisitEntity> visits;
 }

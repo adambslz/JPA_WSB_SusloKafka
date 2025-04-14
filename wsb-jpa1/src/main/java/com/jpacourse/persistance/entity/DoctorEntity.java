@@ -1,5 +1,6 @@
 package com.jpacourse.persistance.entity;
 
+import com.jpacourse.dto.AddressTO;
 import com.jpacourse.persistance.enums.Specialization;
 
 import jakarta.persistence.*;
@@ -84,6 +85,13 @@ public class DoctorEntity {
 
 	public void setSpecialization(Specialization specialization) {
 		this.specialization = specialization;
+	}
+
+	public AddressTO getAddress() {
+		return address;
+	}
+	public void setAddress(AddressEntity address) {
+		this.address = address;
 	}
 
 	//Relacja jednostronna (jeden-do-jednego) od strony rodzica
