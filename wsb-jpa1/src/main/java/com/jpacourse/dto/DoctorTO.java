@@ -15,7 +15,7 @@ public class DoctorTO implements Serializable {
     private String email;
     private String doctorNumber;
     private Specialization specialization;
-    private AddressTO address;
+    private AddressEntity address;
     private List<VisitTO> visits;
 
     public Long getId() {
@@ -78,7 +78,7 @@ public class DoctorTO implements Serializable {
         return address;
     }
 
-    public void setAddress(AddressTO address) {
+    public void setAddress(AddressEntity address) {
         this.address = address;
     }
 

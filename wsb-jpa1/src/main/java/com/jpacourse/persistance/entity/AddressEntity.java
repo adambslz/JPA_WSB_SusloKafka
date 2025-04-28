@@ -1,11 +1,12 @@
 package com.jpacourse.persistance.entity;
 
 
+import com.jpacourse.dto.AddressTO;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ADDRESS")
-public class AddressEntity {
+public class AddressEntity extends AddressTO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

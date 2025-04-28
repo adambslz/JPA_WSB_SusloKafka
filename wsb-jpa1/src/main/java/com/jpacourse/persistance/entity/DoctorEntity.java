@@ -1,9 +1,12 @@
 package com.jpacourse.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jpacourse.dto.AddressTO;
 import com.jpacourse.persistance.enums.Specialization;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "DOCTOR")
@@ -87,11 +90,22 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
-	public AddressTO getAddress() {
+	// Getter for Address
+	public AddressEntity getAddress() {
 		return address;
 	}
+
+	// Setter for Address
 	public void setAddress(AddressEntity address) {
 		this.address = address;
+	}
+
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
 	}
 
 	//Relacja jednostronna (jeden-do-jednego) od strony rodzica
@@ -102,6 +116,10 @@ public class DoctorEntity {
 	)
 	@JoinColumn(name="address_id", referencedColumnName = "id")
 	private AddressEntity address;
+
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<VisitEntity> visits;
 
 
 }
