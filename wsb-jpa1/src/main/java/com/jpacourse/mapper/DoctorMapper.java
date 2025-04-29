@@ -5,7 +5,7 @@ import com.jpacourse.persistance.entity.DoctorEntity;
 
 import java.util.stream.Collectors;
 
-public class DoctorMapper {
+public final class DoctorMapper {
     public static DoctorTO mapToTO(final DoctorEntity doctorEntity) {
         if (doctorEntity == null) {
             return null;

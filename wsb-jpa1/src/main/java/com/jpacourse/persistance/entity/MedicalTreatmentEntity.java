@@ -42,9 +42,18 @@ public class MedicalTreatmentEntity {
 		this.type = type;
 	}
 
+	public VisitEntity getVisit() {
+		return visit;
+	}
+
+	public void setVisit(VisitEntity visit) {
+		this.visit = visit;
+	}
+
 	//Relacja dwustronna (wiele-do-jednego) od strony dziecka
 	@ManyToOne
 	@JoinColumn(name = "visit_id", referencedColumnName = "id")
 	private VisitEntity visit;
+
 
 }
