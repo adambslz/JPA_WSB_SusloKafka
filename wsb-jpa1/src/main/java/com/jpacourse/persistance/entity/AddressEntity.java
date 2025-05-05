@@ -60,18 +60,27 @@ public class AddressEntity extends AddressTO {
 		this.postalCode = postalCode;
 	}
 
-/*Relacje wg schematu są następujące:
-1. Do tabeli 'Doctor': 1 - do - 1
-2. Do tabeli 'Patient': 1 - do - 1
+	/* Relacja zwrotna do relacji One-to-one w DoctorEntity */
+	@OneToOne(mappedBy = "address", optional = false)
+	private DoctorEntity doctorEntity;
 
+	public DoctorEntity getDoctorEntity() {
+		return doctorEntity;
+	}
 
-	@OneToOne(
-			cascade =  CascadeType.ALL, // deafult: empty
-			fetch = FetchType.LAZY, // default: EAGER
-			optional = false // default: true
-	)
-	@JoinColumn(name="doctor_id", referencedColumnName = "id")
-	private DoctorEntity doctor;
+	public void setDoctorEntity(DoctorEntity doctorEntity) {
+		this.doctorEntity = doctorEntity;
+	}
 
- */
+	/* Relacja zwrotna do relacji One-to-one w PatientEntity */
+	@OneToOne(mappedBy = "address", optional = false)
+	private PatientEntity patientEntity;
+
+	public PatientEntity getPatientEntity() {
+		return patientEntity;
+	}
+
+	public void setPatientEntity(PatientEntity patientEntity) {
+		this.patientEntity = patientEntity;
+	}
 }
