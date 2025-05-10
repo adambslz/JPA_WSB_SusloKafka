@@ -20,6 +20,9 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private String lastName;
 
+	//Dodatkowe pole w PatientEntity - numer PESEL
+	private Long peselNumber;
+
 	@Column(nullable = false)
 	private String telephoneNumber;
 
@@ -54,6 +57,10 @@ public class PatientEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	//Dodatkowe metody do obsługi dodanego pola PESEL
+	private Long getPeselNumber() {return peselNumber;}
+	public void setPeselNumber(Long peselNumber) {this.peselNumber = peselNumber;}
 
 	public String getTelephoneNumber() {
 		return telephoneNumber;

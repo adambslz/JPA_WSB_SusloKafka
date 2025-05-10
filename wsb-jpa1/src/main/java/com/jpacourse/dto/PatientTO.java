@@ -9,6 +9,10 @@ public class PatientTO implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
+
+    //Dodatkowe pole PESEL
+    private Long peselNumber;
+
     private String telephoneNumber;
     private String email;
     private String patientNumber;
@@ -20,6 +24,11 @@ public class PatientTO implements Serializable {
     public String getFirstName() {return firstName;}
     public void setFirstName(String firstName) {this.firstName = firstName;}
     public String getLastName() {return lastName;}
+
+    //Dodatkowe metody do obsługi PESEL-a
+    public Long getPeselNumber() {return peselNumber;}
+    public void setPeselNumber(Long peselNumber) {this.peselNumber = peselNumber;}
+
     public void setLastName(String lastName) {this.lastName = lastName;}
     public String getTelephoneNumber() {return telephoneNumber;}
     public void setTelephoneNumber(String telephoneNumber) {this.telephoneNumber = telephoneNumber;}
