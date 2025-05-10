@@ -59,7 +59,7 @@ public class PatientEntity {
 	}
 
 	//Dodatkowe metody do obsługi dodanego pola PESEL
-	private Long getPeselNumber() {return peselNumber;}
+	public Long getPeselNumber() {return peselNumber;}
 	public void setPeselNumber(Long peselNumber) {this.peselNumber = peselNumber;}
 
 	public String getTelephoneNumber() {
