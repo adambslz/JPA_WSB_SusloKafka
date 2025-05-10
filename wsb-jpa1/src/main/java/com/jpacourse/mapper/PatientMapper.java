@@ -5,6 +5,7 @@ import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistance.entity.PatientEntity;
 import com.jpacourse.persistance.entity.VisitEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +25,13 @@ public final class PatientMapper {
         patientTO.setBirthDate(patientEntity.getDateOfBirth());
 
         if(patientEntity.getVisits() != null){
-            List<VisitTO> visits = patientEntity.getVisits()
+            List<VisitTO> completedVisits = patientEntity.getVisits()
                     .stream()
-                    .map(visitEntity -> VisitMapper.toVisitTO(visitEntity))
+                    //visit.getVisitDate().isBefore(LocalDateTime.now()) sprawdza, czy data wizyty jest w przeszłości, dzięki temu pobieramy tylko wizyty, które odbyły się w przeszłości
+                    .filter(visit -> visit.getTime().isBefore(LocalDateTime.now()))
+                    .map(VisitMapper::toVisitTO)
                     .collect(Collectors.toList());
-            patientTO.setVisits(visits);
+            patientTO.setVisits(completedVisits);
         }
         return patientTO;
     }
@@ -48,11 +51,12 @@ public final class PatientMapper {
         patientEntity.setDateOfBirth(patientTO.getBirthDate());
 
         if(patientTO.getVisits() != null){
-            List<VisitEntity> visitEntityList = patientTO.getVisits()
+            List<VisitEntity> completedVisitEntityList = patientTO.getVisits()
                     .stream()
-                    .map(visitTO -> VisitMapper.toVisitEntity(visitTO))
+                    .filter(visit -> visit.getVisitDate().isBefore(LocalDateTime.now()))
+                    .map(VisitMapper::toVisitEntity)
                     .collect(Collectors.toList());
-            patientEntity.setVisits(visitEntityList);
+            patientEntity.setVisits(completedVisitEntityList);
         }
 
         return patientEntity;
