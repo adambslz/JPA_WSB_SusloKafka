@@ -24,4 +24,11 @@ public class PatientServiceImpl implements PatientService {
         return PatientMapper.toPatientTO(entity);
     }
 
+    @Override
+    public void deletePatient(final Long id) {
+        PatientEntity patientEntity = patientDao.findOne(id);
+        if(patientEntity != null) {
+            patientDao.delete(patientEntity); // Usunięcie pacjenta powinno automatycznie usunąć powiązane wizyty (kaskada)
+        }
+    }
 }
