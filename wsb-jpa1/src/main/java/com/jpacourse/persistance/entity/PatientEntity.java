@@ -14,24 +14,26 @@ public class PatientEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 
-	@Column(nullable = false)
+	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
 	//Dodatkowe pole w PatientEntity - numer PESEL
+	@Column(name = "PESEL_NUMBER")
 	private Long peselNumber;
 
-	@Column(nullable = false)
+	@Column(name = "TELEPHONE_NUMBER", nullable = false)
 	private String telephoneNumber;
 
+	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(nullable = false)
+	@Column(name = "PATIENT_NUMBER", nullable = false)
 	private String patientNumber;
 
-	@Column(nullable = false)
+	@Column(name = "DATE_OF_BIRTH", nullable = false)
 	private LocalDate dateOfBirth;
 
 	public Long getId() {
@@ -101,6 +103,10 @@ public class PatientEntity {
 	public void setVisits(List<VisitEntity> visits) {
 		this.visits = visits;
 	}
+
+	public AddressEntity getAddress() {return address;}
+
+	public void setAddress(AddressEntity address) {this.address = address;}
 
 	//Relacje jednostronna (jeden-do-jednego) od strony rodzica
 	@OneToOne(

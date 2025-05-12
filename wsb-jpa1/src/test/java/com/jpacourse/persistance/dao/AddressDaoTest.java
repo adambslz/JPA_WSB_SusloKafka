@@ -1,6 +1,8 @@
 package com.jpacourse.persistance.dao;
 
 import com.jpacourse.persistance.entity.AddressEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +24,7 @@ public class AddressDaoTest
         AddressEntity addressEntity = addressDao.findOne(1L);
         // then
         assertThat(addressEntity).isNotNull();
-        assertThat(addressEntity.getPostalCode()).isEqualTo("80-400");
+        assertThat(addressEntity.getPostalCode()).isEqualTo("00-001");
     }
 
     @Transactional

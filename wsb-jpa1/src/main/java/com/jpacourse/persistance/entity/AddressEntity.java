@@ -12,12 +12,16 @@ public class AddressEntity extends AddressTO {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "CITY")
 	private String city;
 
+	@Column(name = "ADDRESS_LINE1")
 	private String addressLine1;
 
+	@Column(name = "ADDRESS_LINE2")
 	private String addressLine2;
 
+	@Column(name = "POSTAL_CODE")
 	private String postalCode;
 
 	public Long getId() {
@@ -60,7 +64,7 @@ public class AddressEntity extends AddressTO {
 		this.postalCode = postalCode;
 	}
 
-	/* Relacja zwrotna do relacji One-to-one w DoctorEntity */
+	/* Relacja zwrotna do relacji One-to-one w DoctorEntity
 	@OneToOne(mappedBy = "address", optional = false)
 	private DoctorEntity doctorEntity;
 
@@ -72,7 +76,7 @@ public class AddressEntity extends AddressTO {
 		this.doctorEntity = doctorEntity;
 	}
 
-	/* Relacja zwrotna do relacji One-to-one w PatientEntity */
+Relacja zwrotna do relacji One-to-one w PatientEntity
 	@OneToOne(mappedBy = "address", optional = false)
 	private PatientEntity patientEntity;
 
@@ -83,4 +87,6 @@ public class AddressEntity extends AddressTO {
 	public void setPatientEntity(PatientEntity patientEntity) {
 		this.patientEntity = patientEntity;
 	}
+
+	 */
 }
