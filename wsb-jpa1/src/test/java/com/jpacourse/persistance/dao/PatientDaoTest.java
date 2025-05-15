@@ -80,4 +80,168 @@ public class PatientDaoTest {
         assertEquals(doctor.getId(), visit.getDoctor().getId());
         assertEquals(patient.getId(), visit.getPatient().getId());
     }
+
+    @Test
+    public void testFindByLastName() {
+
+        //given
+        PatientEntity patient1 = new PatientEntity();
+        patient1.setFirstName("John");
+        patient1.setLastName("Smith");
+        patient1.setPatientNumber("TST001");
+        patient1.setTelephoneNumber("111-222-333");
+        patient1.setDateOfBirth(LocalDate.of(1990,1,1));
+
+        AddressEntity address1 = new AddressEntity();
+        address1.setAddressLine1("Test Str");
+        address1.setCity("Test City");
+        address1.setPostalCode("5L596X");
+        patient1.setAddress(address1);
+
+        patientDao.save(patient1);
+
+        PatientEntity patient2 = new PatientEntity();
+        patient2.setFirstName("Alice");
+        patient2.setLastName("Cooper");
+        patient2.setPatientNumber("TST002");
+        patient2.setTelephoneNumber("555-555-5555");
+        patient2.setDateOfBirth(LocalDate.of(1992,3,15));
+
+        AddressEntity address2 = new AddressEntity();
+        address2.setAddressLine1("Testowa");
+        address2.setCity("Testowo");
+        address2.setPostalCode("11-222");
+        patient2.setAddress(address2);
+
+        patientDao.save(patient2);
+
+        PatientEntity patient3 = new PatientEntity();
+        patient3.setFirstName("Stefan");
+        patient3.setLastName("Batory");
+        patient3.setPatientNumber("TST003");
+        patient3.setTelephoneNumber("777-777-6666");
+        patient3.setDateOfBirth(LocalDate.of(1993,6,23));
+
+        AddressEntity address3 = new AddressEntity();
+        address3.setAddressLine1("Bukowa");
+        address3.setCity("Kłodzko");
+        address3.setPostalCode("57-300");
+        patient3.setAddress(address3);
+
+        patientDao.save(patient3);
+
+        //when
+        List<PatientEntity> patientsLastName = patientDao.findAllByLastName("Smith");
+
+        //then
+        assertNotNull(patientsLastName);
+        assertEquals(1,patientsLastName.size());
+        assertTrue(patientsLastName.stream().allMatch(s -> "Smith".equals(s.getLastName())));
+    }
+
+    @Test
+    void testFindPatientsWithMoreThanXVisits() {
+        //given
+        PatientEntity patient1 = new PatientEntity();
+        patient1.setFirstName("John");
+        patient1.setLastName("Smith");
+        patient1.setPatientNumber("TST001");
+        patient1.setTelephoneNumber("111-222-333");
+        patient1.setDateOfBirth(LocalDate.of(1990,1,1));
+
+        AddressEntity address1 = new AddressEntity();
+        address1.setAddressLine1("Test Str");
+        address1.setCity("Test City");
+        address1.setPostalCode("5L596X");
+        patient1.setAddress(address1);
+
+        //Pacjent 1 ma dwie wizyty
+        VisitEntity visit1 = new VisitEntity();
+        visit1.setDescription("Pierwsza wizyta");
+        visit1.setTime(LocalDateTime.now());
+        visit1.setPatient(patient1);
+
+        VisitEntity visit2 = new VisitEntity();
+        visit2.setDescription("Druga wizyta");
+        visit2.setTime(LocalDateTime.now().plusDays(2));
+        visit2.setPatient(patient1);
+
+        patient1.getVisits().add(visit1);
+        patient1.getVisits().add(visit2);
+
+        patientDao.createPatient(patient1);
+
+        PatientEntity patient2 = new PatientEntity();
+        patient2.setFirstName("Jan");
+        patient2.setLastName("Kowalski");
+        patient2.setPatientNumber("TST002");
+        patient2.setTelephoneNumber("777-777-6666");
+        patient2.setDateOfBirth(LocalDate.of(1992,3,15));
+
+        AddressEntity address2 = new AddressEntity();
+        address2.setAddressLine1("Al. Jerozolimskie");
+        address2.setCity("Warszawa");
+        address2.setPostalCode("00-222");
+        patient2.setAddress(address2);
+
+        //Pacjent 2 ma tylko 1 wizytę
+        VisitEntity visit3 = new VisitEntity();
+        visit3.setDescription("Jedna wizyta");
+        visit3.setTime(LocalDateTime.now());
+        visit3.setPatient(patient2);
+
+        patient2.getVisits().add(visit3);
+
+        patientDao.createPatient(patient2);
+
+        //when
+        List<PatientEntity> result = patientDao.findPatientsWithMoreThanXVisits(1);
+
+        //then
+        assertEquals(1, result.size());
+        assertEquals("Smith", result.get(0).getLastName());
+    }
+
+    @Test
+    public void testFindPatientsBornBeforeGivenDateFromPesel(){
+        //given
+        PatientEntity patient1 = new PatientEntity();
+        patient1.setFirstName("Adam");
+        patient1.setLastName("Nowak");
+        patient1.setPatientNumber("TST001");
+        patient1.setTelephoneNumber("777-777-6666");
+        patient1.setDateOfBirth(LocalDate.of(1982,11,15));
+        patient1.setPeselNumber(82111505238L); //PESEL dla daty urodzenia
+
+        AddressEntity address1 = new AddressEntity();
+        address1.setAddressLine1("Zamenhoffa");
+        address1.setCity("Kudowa-Zdrój");
+        address1.setPostalCode("57-520");
+        patient1.setAddress(address1);
+
+        patientDao.createPatient(patient1);
+
+        PatientEntity patient2 = new PatientEntity();
+        patient2.setFirstName("Julia");
+        patient2.setLastName("Kowalska");
+        patient2.setPatientNumber("TST002");
+        patient2.setTelephoneNumber("222-222-4444");
+        patient2.setDateOfBirth(LocalDate.of(1993,7,8));
+        patient2.setPeselNumber(93070813228L);
+
+        AddressEntity address2 = new AddressEntity();
+        address2.setAddressLine1("Grunwaldzka");
+        address2.setCity("Wrocław");
+        address2.setPostalCode("58-210");
+        patient2.setAddress(address2);
+
+        patientDao.createPatient(patient2);
+
+        //when: znajdź wszystkich pacjentów urodzonych przed 1990-01-01
+        List<PatientEntity> result = patientDao.findPatientsBornBefore(LocalDate.of(1990,1,1));
+
+        //then
+        assertEquals(1, result.size());
+        assertEquals("Adam", result.get(0).getFirstName());
+    }
 }
