@@ -5,9 +5,13 @@ import com.jpacourse.persistance.entity.DoctorEntity;
 import com.jpacourse.persistance.entity.PatientEntity;
 import com.jpacourse.persistance.entity.VisitEntity;
 import com.jpacourse.persistance.enums.Specialization;
+import jakarta.persistence.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -25,6 +29,9 @@ public class PatientDaoTest {
 
     @Autowired
     private DoctorDao doctorDao;
+
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     @Test
     public void testAddVisitToPatient() {
@@ -247,5 +254,57 @@ public class PatientDaoTest {
         //then
         assertEquals(1, result.size());
         assertEquals("Adam", result.get(0).getFirstName());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    //OptimisticLock test
+    public void testOptimisticLocking(){
+        //given
+        EntityManager emCreate = entityManagerFactory.createEntityManager();
+        emCreate.getTransaction().begin();
+
+        AddressEntity address1 = new AddressEntity();
+        address1.setAddressLine1("Zamenhoffa");
+        address1.setCity("Warszawa");
+        address1.setPostalCode("57-520");
+
+        PatientEntity patient = new PatientEntity();
+        patient.setFirstName("Adam");
+        patient.setLastName("Nowak");
+        patient.setPatientNumber("TST001");
+        patient.setTelephoneNumber("777-777-6666");
+        patient.setDateOfBirth(LocalDate.of(1979,11,15));
+        patient.setAddress(address1);
+
+        emCreate.persist(address1);
+        emCreate.persist(patient);
+        emCreate.getTransaction().commit();
+        emCreate.close();
+
+        EntityManager em1 = entityManagerFactory.createEntityManager();
+        EntityManager em2 = entityManagerFactory.createEntityManager();
+
+        PatientEntity patient1 = em1.find(PatientEntity.class, patient.getId());
+        PatientEntity patient2 = em2.find(PatientEntity.class, patient.getId());
+
+        //Krok 1: Pierwszy update i commit danych
+        em1.getTransaction().begin();
+        patient1.setTelephoneNumber("222-222-4444");
+        em1.merge(patient1);
+        em1.getTransaction().commit();
+        em1.close();
+
+        //Krok 2: Drugi update, który powinien się nie udać bo będzie starszy niż obecna wersja
+        em2.getTransaction().begin();
+        patient2.setTelephoneNumber("222-222-2222");
+
+        RollbackException exception = assertThrows(RollbackException.class, () -> {
+            em2.merge(patient2);
+            em2.getTransaction().commit();
+        });
+
+        assertTrue(exception.getCause() instanceof OptimisticLockException);
+        em2.close();
     }
 }

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,10 @@ public class PatientEntity {
 
 	@Column(name = "DATE_OF_BIRTH", nullable = false)
 	private LocalDate dateOfBirth;
+
+	@Version
+	@Column(name= "VERSION")
+	private int version;
 
 	public Long getId() {
 		return id;
@@ -110,6 +116,14 @@ public class PatientEntity {
 
 	public void setAddress(AddressEntity address) {this.address = address;}
 
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 	//Relacje jednostronna (jeden-do-jednego) od strony rodzica
 	@OneToOne(
 			cascade =  CascadeType.ALL, // default: empty
@@ -119,6 +133,7 @@ public class PatientEntity {
 	@JoinColumn(name="address_id", referencedColumnName = "id")
 	private AddressEntity address;
 
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<VisitEntity> visits = new ArrayList<>();
 }
