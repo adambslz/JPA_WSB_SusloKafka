@@ -81,6 +81,7 @@ public class PatientDaoTest {
         assertEquals(patient.getId(), visit.getPatient().getId());
     }
 
+    //Lab 3 - zadanie 1
     @Test
     public void testFindByLastName() {
 
@@ -139,6 +140,7 @@ public class PatientDaoTest {
         assertTrue(patientsLastName.stream().allMatch(s -> "Smith".equals(s.getLastName())));
     }
 
+    //Lab 3 - zadanie 3
     @Test
     void testFindPatientsWithMoreThanXVisits() {
         //given
@@ -202,6 +204,7 @@ public class PatientDaoTest {
         assertEquals("Smith", result.get(0).getLastName());
     }
 
+    //Lab 3 - zad 4.
     @Test
     public void testFindPatientsBornBeforeGivenDateFromPesel(){
 

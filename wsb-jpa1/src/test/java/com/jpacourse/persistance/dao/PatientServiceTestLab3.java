@@ -25,6 +25,7 @@ public class PatientServiceTestLab3 {
     @Autowired
     private PatientService patientService;
 
+    //Lab 3 - zadanie 2
     @Test
     void testListByPatientId() {
         //give: pacjent z dwiema wizytami
