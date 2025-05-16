@@ -42,7 +42,7 @@ public class PatientEntity {
 
 	@Version
 	@Column(name= "VERSION")
-	private int version;
+	private Integer version;
 
 	public Long getId() {
 		return id;
@@ -116,11 +116,11 @@ public class PatientEntity {
 
 	public void setAddress(AddressEntity address) {this.address = address;}
 
-	public int getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 
