@@ -58,23 +58,22 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     }
 
     @Override
-    public List<PatientEntity> findPatientsBornBefore(LocalDate date){
+    public List<PatientEntity> findPatientsBornBefore(LocalDate date) {
 
-        List<PatientEntity> allPatients = entityManager.createQuery("SELECT p FROM PatientEntity p",PatientEntity.class).getResultList();
+        List<PatientEntity> allPatients = entityManager.createQuery("SELECT p FROM PatientEntity p", PatientEntity.class).getResultList();
 
-        List<PatientEntity> filtered = new ArrayList<>();
-        for (PatientEntity p : allPatients) {
-            if(p.getPeselNumber() == null) continue;
+        return allPatients.stream()
+                .filter(p -> {
+                    Long pesel = p.getPeselNumber();
+                    if (pesel == null) return false;
 
-            LocalDate birthDateFromPesel = extractBirtDateFromPesel(p.getPeselNumber());
-            if(birthDateFromPesel != null && birthDateFromPesel.isBefore(date)){
-                filtered.add(p);
-            }
-        }
-        return filtered;
+                    LocalDate birthDate = extractBirthDateFromPesel(pesel);
+                    return birthDate != null && birthDate.isBefore(date);
+                })
+                .toList();
     }
 
-    private LocalDate extractBirtDateFromPesel(Long peselNumber) {
+    private LocalDate extractBirthDateFromPesel(Long peselNumber) {
         if(peselNumber == null) return null;
 
         String peselStr = String.valueOf(peselNumber);

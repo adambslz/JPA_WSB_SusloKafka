@@ -204,14 +204,15 @@ public class PatientDaoTest {
 
     @Test
     public void testFindPatientsBornBeforeGivenDateFromPesel(){
+
         //given
         PatientEntity patient1 = new PatientEntity();
         patient1.setFirstName("Adam");
         patient1.setLastName("Nowak");
         patient1.setPatientNumber("TST001");
         patient1.setTelephoneNumber("777-777-6666");
-        patient1.setDateOfBirth(LocalDate.of(1982,11,15));
-        patient1.setPeselNumber(82111505238L); //PESEL dla daty urodzenia
+        patient1.setDateOfBirth(LocalDate.of(1979,11,15));
+        patient1.setPeselNumber(79111505238L); //PESEL dla daty urodzenia
 
         AddressEntity address1 = new AddressEntity();
         address1.setAddressLine1("Zamenhoffa");
@@ -238,8 +239,8 @@ public class PatientDaoTest {
         patientDao.createPatient(patient2);
 
         //when: znajdź wszystkich pacjentów urodzonych przed 1990-01-01
-        List<PatientEntity> result = patientDao.findPatientsBornBefore(LocalDate.of(1990,1,1));
-
+        List<PatientEntity> result = patientDao.findPatientsBornBefore(LocalDate.of(1980,1,1));
+        System.out.println(result);
         //then
         assertEquals(1, result.size());
         assertEquals("Adam", result.get(0).getFirstName());
